@@ -13,7 +13,7 @@
  * @param  {string} str - string to compress
  * @return {string} compressed string
  */
-export default function compressString(str = '') {
+export default function compress(str = '') {
 	if (!str) {
 		return str;
 	}
