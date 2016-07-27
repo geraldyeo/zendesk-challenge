@@ -10,10 +10,7 @@ class Todos extends Component {
 
 	static defaultProps = {
 		title: '',
-		todos: [
-			{title: 'test 1'},
-			{title: 'test 2'}
-		]
+		todos: []
 	}
 
 	setDragulaRef = c => {
@@ -31,13 +28,13 @@ class Todos extends Component {
 					<div className="ui right floated segment">
 						<div className="ui mini statistic">
 							<div className="value">{todos.length}</div>
-							<div className="label">Total Projects</div>
+							<div className="label">Projects</div>
 						</div>
 					</div>
 				</div>
 				<div className="content ui segment">
 					<div className="ui large divided list" ref={this.setDragulaRef}>
-						{todos.map(todo => <Todo key={todo.title} title={todo.title}/>)}
+						{todos.map(todo => <Todo key={todo.id} title={todo.title}/>)}
 					</div>
 				</div>
 			</div>
