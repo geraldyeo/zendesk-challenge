@@ -5,11 +5,13 @@ import './Content.css';
 
 class Content extends Component {
 	static propTypes = {
-		todos: PropTypes.array
+		todos: PropTypes.array,
+		onAcceptDrop: PropTypes.func
 	};
 
 	static defaultProps = {
-		todos: []
+		todos: [],
+		onAcceptDrop: () => {}
 	};
 
 	setDragulaRef = ref => {
@@ -19,11 +21,28 @@ class Content extends Component {
 	};
 
 	componentDidMount() {
+		const {onAcceptDrop} = this.props;
+
 		dragula([
 			this.todosNew.drakeContainer,
 			this.todosWip.drakeContainer,
 			this.todosDone.drakeContainer
-		]);
+		], {
+			accepts: (el, target, source, sibling) => {
+				const uuid = el.getAttribute('data-uuid');
+				if (sibling) {
+					return true;
+				}
+				if (target.matches('.list.to-do')) {
+					onAcceptDrop(uuid, 'new');
+				} else if (target.matches('.list.in-progress')) {
+					onAcceptDrop(uuid, 'wip');
+				} else if (target.matches('.list.done')) {
+					onAcceptDrop(uuid, 'done');
+				}
+				return false;
+			}
+		});
 	}
 
 	render() {

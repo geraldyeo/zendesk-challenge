@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import cx from 'classnames';
 import Todo from './Todo';
 import './Todos.css';
 
@@ -33,8 +34,11 @@ class Todos extends Component {
 					</div>
 				</div>
 				<div className="content ui segment">
-					<div className="ui large divided list" ref={this.setDragulaRef}>
-						{todos.map(todo => <Todo key={todo.id} title={todo.title}/>)}
+					<div
+						ref={this.setDragulaRef}
+						className={cx('ui large divided list', title.toLowerCase().replace(' ', '-'))}
+						>
+						{todos.map(todo => <Todo key={todo.id} uuid={todo.id} title={todo.title}/>)}
 					</div>
 				</div>
 			</div>

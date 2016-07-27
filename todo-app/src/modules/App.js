@@ -33,12 +33,23 @@ class App extends Component {
 		});
 	}
 
+	handleDrop = (uuid, status) => {
+		const todos = [...this.state.todos];
+		const i = todos.find(todo => todo.id === uuid);
+		if (i) {
+			i.state = status;
+			this.setState({
+				todos: [...todos]
+			});
+		}
+	};
+
 	render() {
 		const {todos} = this.state;
 		return (
 			<div className="App ui grid">
 				<Header total={todos.length} onAddProject={this.handleAddProject}/>
-				<Content todos={todos}/>
+				<Content todos={todos} onAcceptDrop={this.handleDrop}/>
 			</div>
 		);
 	}
