@@ -4,9 +4,9 @@ import TodoStore from './stores/TodoStore';
 import App from './modules/App';
 import './index.css';
 
-const todoStore = TodoStore.createStore([]);
+// const todoStore = TodoStore.createStore([]);
 
 ReactDOM.render(
-	<App todoStore={todoStore}/>,
+	<App/>,
 	document.getElementById('root')
 );
