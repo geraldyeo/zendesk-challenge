@@ -1,4 +1,5 @@
 node_modules
+**/semantic/dist/
 
 main.js
 *.map

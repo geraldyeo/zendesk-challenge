@@ -1,0 +1,19 @@
+{
+	"env": {
+		"es6": true,
+		"browser": true,
+		"node": true
+	},
+	"extends": [
+		"xo/esnext",
+		"xo-react"
+	],
+	"plugins": [
+		"babel",
+		"xo",
+		"react"
+	],
+	"parser": "babel-eslint",
+	"globals": {
+	}
+}
