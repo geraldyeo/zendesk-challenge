@@ -1,3 +1,7 @@
 .todo .ellipsis {
 	cursor: move;
 }
+
+.todo.gu-mirror {
+	display: none;
+}
