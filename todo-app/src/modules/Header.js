@@ -51,13 +51,15 @@ class Header extends Component {
 							placeholder="ux design, development"
 							value={input}
 							/>
-						<button onClick={this.handleAddProject} className="ui button">Add Project</button>
+						<button onClick={this.handleAddProject} className="ui button">
+							<i className="icon tasks"></i>Add Project
+						</button>
 					</div>
 				</div>
 				<div className="ui right floated segment">
 					<div className="ui statistic">
 						<div className="value">{total}</div>
-						<div className="label">Total Projects</div>
+						<div className="label">Total Project{total > 0 ? 's' : ''}</div>
 					</div>
 				</div>
 

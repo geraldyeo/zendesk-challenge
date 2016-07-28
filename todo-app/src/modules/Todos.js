@@ -6,11 +6,13 @@ import './Todos.css';
 class Todos extends Component {
 	static propTypes = {
 		title: PropTypes.string,
+		color: PropTypes.string,
 		todos: PropTypes.array
 	};
 
 	static defaultProps = {
 		title: '',
+		color: '',
 		todos: []
 	}
 
@@ -19,24 +21,24 @@ class Todos extends Component {
 	};
 
 	render() {
-		const {title, todos} = this.props;
+		const {title, color, todos} = this.props;
 		return (
 			<div className="todos ui segments">
 				<div className="header ui clearing segment">
 					<div className="ui left floated basic segment">
 						{title}
 					</div>
-					<div className="ui right floated segment">
-						<div className="ui mini statistic">
+					<div className={cx('ui right floated segment', color)}>
+						<div className="ui tiny horizontal statistic">
 							<div className="value">{todos.length}</div>
-							<div className="label">Projects</div>
+							<div className="label">Project{todos.length > 0 ? 's' : ''}</div>
 						</div>
 					</div>
 				</div>
 				<div className="content ui segment">
 					<div
 						ref={this.setDragulaRef}
-						className={cx('ui large divided list', title.toLowerCase().replace(' ', '-'))}
+						className={cx('ui huge divided list', title.toLowerCase().replace(' ', '-'))}
 						>
 						{todos.map(todo => <Todo key={todo.id} uuid={todo.id} title={todo.title}/>)}
 					</div>

@@ -16,9 +16,10 @@ class Todo extends Component {
 		const {title, uuid} = this.props;
 		return (
 			<div className="todo item" data-uuid={uuid}>
-				<div className="content">
-					<div className="header">{title}</div>
+				<div className="right floated content">
+					<i className="icon vertical ellipsis"></i>
 				</div>
+				<div className="header">{title}</div>
 			</div>
 		);
 	}

@@ -33,14 +33,27 @@ class App extends Component {
 		});
 	}
 
-	handleDrop = (uuid, status) => {
+	handleDrop = ({ids, uuid, status}) => {
 		const todos = [...this.state.todos];
-		const i = todos.find(todo => todo.id === uuid);
-		if (i) {
-			i.state = status;
+
+		if (ids) {
+			const matches = todos.filter(todo => todo.state === status);
+			const nonmatches = todos.filter(todo => todo.state !== status);
+			const sorted = ids.map(uuid => matches.find(match => match.id === uuid));
 			this.setState({
-				todos: [...todos]
+				todos: [
+					...sorted,
+					...nonmatches
+				]
 			});
+		} else {
+			const i = todos.find(todo => todo.id === uuid);
+			if (i) {
+				i.state = status;
+				this.setState({
+					todos: [...todos]
+				});
+			}
 		}
 	};
 

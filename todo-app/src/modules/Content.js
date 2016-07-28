@@ -22,25 +22,50 @@ class Content extends Component {
 
 	componentDidMount() {
 		const {onAcceptDrop} = this.props;
-
-		dragula([
+		const containers = [
 			this.todosNew.drakeContainer,
 			this.todosWip.drakeContainer,
 			this.todosDone.drakeContainer
-		], {
-			accepts: (el, target, source, sibling) => {
-				const uuid = el.getAttribute('data-uuid');
-				if (sibling) {
-					return true;
+		];
+
+		const drake = dragula(containers, {
+			delay: 200,
+			moves: (el, container, handle) => {
+				return handle.matches('.vertical.ellipsis');
+			}
+		});
+
+		drake.on('drop', function(el, target, source, sibling) {
+			const items = target.querySelectorAll('.item');
+			const uuid = el.getAttribute('data-uuid');
+			const dragWithin = target === source;
+			drake.cancel(true);
+
+			if (dragWithin) {
+				// sort order
+				const ids = [];
+				let item;
+				let i;
+				for (i = 0; i < items.length; i++) {
+					item = items[i];
+					ids.push(item.getAttribute('data-uuid'));
 				}
 				if (target.matches('.list.to-do')) {
-					onAcceptDrop(uuid, 'new');
+					onAcceptDrop({ids, status: 'new'});
 				} else if (target.matches('.list.in-progress')) {
-					onAcceptDrop(uuid, 'wip');
+					onAcceptDrop({ids, status: 'wip'});
 				} else if (target.matches('.list.done')) {
-					onAcceptDrop(uuid, 'done');
+					onAcceptDrop({ids, status: 'done'});
 				}
-				return false;
+			} else {
+				// move between columns
+				if (target.matches('.list.to-do')) {
+					onAcceptDrop({uuid, status: 'new'});
+				} else if (target.matches('.list.in-progress')) {
+					onAcceptDrop({uuid, status: 'wip'});
+				} else if (target.matches('.list.done')) {
+					onAcceptDrop({uuid, status: 'done'});
+				}
 			}
 		});
 	}
@@ -54,6 +79,7 @@ class Content extends Component {
 						<Todos
 							ref={this.setDragulaRef('todosNew')}
 							title="To Do"
+							color="red"
 							todos={todos.filter(todo => todo.state === 'new')}
 							/>
 					</div>
@@ -61,6 +87,7 @@ class Content extends Component {
 						<Todos
 							ref={this.setDragulaRef('todosWip')}
 							title="In Progress"
+							color="orange"
 							todos={todos.filter(todo => todo.state === 'wip')}
 							/>
 					</div>
@@ -68,6 +95,7 @@ class Content extends Component {
 						<Todos
 							ref={this.setDragulaRef('todosDone')}
 							title="Done"
+							color="green"
 							todos={todos.filter(todo => todo.state === 'done')}
 							/>
 					</div>
