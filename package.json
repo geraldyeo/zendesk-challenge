@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "ava",
-    "start:jstasks": "webpack-dev-server --config js-tasks/webpack.config.js --content-base js-tasks/ --port 9090 --open"
+    "start:jstasks": "webpack-dev-server --config js-tasks/webpack.config.js --content-base js-tasks/ --port 9090"
   },
   "author": "",
   "license": "ISC",

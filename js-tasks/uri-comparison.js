@@ -18,9 +18,9 @@ export default function checkURIs(a, b) {
 		hash: _a.hash === _b.hash,
 		query: checkQuery(_a, _b)
 	};
-
 	// check
-	for (let prop in isSame) {
+	let prop;
+	for (prop in isSame) {
 		if (!isSame[prop]) {
 			return false;
 		}
@@ -34,7 +34,6 @@ export default function checkURIs(a, b) {
 // remove port 80
 // resolve traversal tokens
 function parseURI(uri) {
-	const re = new RegExp('([^?=&]+)(=([^&]*))?', 'g');
 	uri = url.parse(decodeURI(uri), true, true);
 	uri.protocol = uri.protocol.toLowerCase();
 	uri.hostname = uri.hostname.toLowerCase();

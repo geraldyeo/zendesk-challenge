@@ -10,8 +10,6 @@
     "classnames": "^2.2.5",
     "node-uuid": "^1.4.7",
     "react": "^15.2.1",
-    "react-dnd": "^2.1.4",
-    "react-dnd-html5-backend": "^2.1.2",
     "react-dom": "^15.2.1",
     "react-dragula": "^1.1.16",
     "semantic-ui": "^2.2.2"
