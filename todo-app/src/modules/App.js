@@ -4,6 +4,51 @@ import Header from './Header';
 import Content from './Content';
 import './App.css';
 
+function reducer(state = {todos: []}, action) {
+	const {todos} = state;
+	switch (action.type) {
+		case 'ADD_TODO':
+			return {
+				...state,
+				todos: [
+					{
+						id: uuid.v1(),
+						title: action.payload.title,
+						state: action.payload.status
+					},
+					...todos
+				]
+			};
+		case 'MOVE_TODO': {
+			const {todoId, status} = action.payload;
+			return {
+				...state,
+				todos: todos.map(todo => {
+					if (todo.id === todoId) {
+						return {
+							...todo,
+							state: status
+						};
+					}
+					return todo;
+				})
+			};
+		}
+		case 'SORT_TODO': {
+			const {ids, status} = action.payload;
+			return {
+				...state,
+				todos: [
+					...ids.map(todoId => todos.find(todo => todo.id === todoId)),
+					...todos.filter(todo => todo.state !== status)
+				]
+			};
+		}
+		default:
+			return state;
+	}
+}
+
 class App extends Component {
 	static propTypes = {
 		todos: PropTypes.array
@@ -15,46 +60,15 @@ class App extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			todos: [...this.props.todos]
-		};
+		this.state = reducer({todos: [...this.props.todos]}, {type: 'INIT'});
 	}
 
-	handleAddProject = title => {
-		this.setState({
-			todos: [
-				{
-					id: uuid.v1(),
-					title,
-					state: 'new'
-				},
-				...this.state.todos
-			]
-		});
+	handleAddProject = action => {
+		this.setState(reducer(this.state, action));
 	}
 
-	handleDrop = ({ids, uuid, status}) => {
-		const todos = [...this.state.todos];
-
-		if (ids) {
-			const matches = todos.filter(todo => todo.state === status);
-			const nonmatches = todos.filter(todo => todo.state !== status);
-			const sorted = ids.map(uuid => matches.find(match => match.id === uuid));
-			this.setState({
-				todos: [
-					...sorted,
-					...nonmatches
-				]
-			});
-		} else {
-			const i = todos.find(todo => todo.id === uuid);
-			if (i) {
-				i.state = status;
-				this.setState({
-					todos: [...todos]
-				});
-			}
-		}
+	handleDrop = action => {
+		this.setState(reducer(this.state, action));
 	};
 
 	render() {

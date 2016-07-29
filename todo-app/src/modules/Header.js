@@ -33,7 +33,13 @@ class Header extends Component {
 		if (event) {
 			event.preventDefault();
 		}
-		this.props.onAddProject(this.state.input);
+		this.props.onAddProject({
+			type: 'ADD_TODO',
+			payload: {
+				title: this.state.input,
+				status: 'new'
+			}
+		});
 		this.setState({input: ''});
 	};
 

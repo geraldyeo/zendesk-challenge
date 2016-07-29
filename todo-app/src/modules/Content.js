@@ -35,12 +35,19 @@ class Content extends Component {
 			}
 		});
 
-		drake.on('drop', function(el, target, source, sibling) {
-			const items = target.querySelectorAll('.item');
-			const uuid = el.getAttribute('data-uuid');
+		drake.on('drop', (el, target, source, sibling) => {
+			const action = {type: '', payload: {}};
 			const dragWithin = target === source;
+			const items = target.querySelectorAll('.item');
 			drake.cancel(true);
-
+			// update status of todo
+			if (target.matches('.list.to-do')) {
+				action.payload.status = 'new';
+			} else if (target.matches('.list.in-progress')) {
+				action.payload.status = 'wip';
+			} else if (target.matches('.list.done')) {
+				action.payload.status = 'done';
+			}
 			if (dragWithin) {
 				// sort order
 				const ids = [];
@@ -50,23 +57,15 @@ class Content extends Component {
 					item = items[i];
 					ids.push(item.getAttribute('data-uuid'));
 				}
-				if (target.matches('.list.to-do')) {
-					onAcceptDrop({ids, status: 'new'});
-				} else if (target.matches('.list.in-progress')) {
-					onAcceptDrop({ids, status: 'wip'});
-				} else if (target.matches('.list.done')) {
-					onAcceptDrop({ids, status: 'done'});
-				}
+				action.type = 'SORT_TODO';
+				action.payload.ids = ids;
 			} else {
 				// move between columns
-				if (target.matches('.list.to-do')) {
-					onAcceptDrop({uuid, status: 'new'});
-				} else if (target.matches('.list.in-progress')) {
-					onAcceptDrop({uuid, status: 'wip'});
-				} else if (target.matches('.list.done')) {
-					onAcceptDrop({uuid, status: 'done'});
-				}
+				action.type = 'MOVE_TODO';
+				action.payload.todoId = el.getAttribute('data-uuid');
 			}
+			// exec
+			onAcceptDrop(action);
 		});
 	}
 
