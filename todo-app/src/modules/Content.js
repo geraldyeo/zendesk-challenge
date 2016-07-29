@@ -40,13 +40,13 @@ class Content extends Component {
 			const dragWithin = target === source;
 			const items = target.querySelectorAll('.item');
 			drake.cancel(true);
-			// update status of todo
+			// update state of todo
 			if (target.matches('.list.to-do')) {
-				action.payload.status = 'new';
+				action.payload.state = 'new';
 			} else if (target.matches('.list.in-progress')) {
-				action.payload.status = 'wip';
+				action.payload.state = 'wip';
 			} else if (target.matches('.list.done')) {
-				action.payload.status = 'done';
+				action.payload.state = 'done';
 			}
 			if (dragWithin) {
 				// sort order
