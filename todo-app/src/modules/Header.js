@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import uuid from 'node-uuid';
 import './Header.css';
 
 class Header extends Component {
@@ -36,8 +37,9 @@ class Header extends Component {
 		this.props.onAddProject({
 			type: 'ADD_TODO',
 			payload: {
+				id: uuid.v1(),
 				title: this.state.input,
-				status: 'new'
+				state: 'new'
 			}
 		});
 		this.setState({input: ''});

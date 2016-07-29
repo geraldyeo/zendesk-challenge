@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import uuid from 'node-uuid';
 import Header from './Header';
 import Content from './Content';
 import './App.css';
@@ -7,18 +6,16 @@ import './App.css';
 function reducer(state = {todos: []}, action) {
 	const {todos} = state;
 	switch (action.type) {
-		case 'ADD_TODO':
+		case 'ADD_TODO': {
+			const {id, title, state} = action.payload;
 			return {
 				...state,
 				todos: [
-					{
-						id: uuid.v1(),
-						title: action.payload.title,
-						state: action.payload.status
-					},
+					{id, title, state},
 					...todos
 				]
 			};
+		}
 		case 'MOVE_TODO': {
 			const {todoId, status} = action.payload;
 			return {
