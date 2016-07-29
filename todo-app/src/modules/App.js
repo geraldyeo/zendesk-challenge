@@ -7,24 +7,24 @@ function reducer(state = {todos: []}, action) {
 	const {todos} = state;
 	switch (action.type) {
 		case 'ADD_TODO': {
-			const {id, title, state} = action.payload;
+			const {id, title, state: status} = action.payload;
 			return {
 				...state,
 				todos: [
-					{id, title, state},
+					{id, title, state: status},
 					...todos
 				]
 			};
 		}
 		case 'MOVE_TODO': {
-			const {todoId, state} = action.payload;
+			const {todoId, state: status} = action.payload;
 			return {
 				...state,
 				todos: todos.map(todo => {
 					if (todo.id === todoId) {
 						return {
 							...todo,
-							state
+							state: status
 						};
 					}
 					return todo;
@@ -32,12 +32,12 @@ function reducer(state = {todos: []}, action) {
 			};
 		}
 		case 'SORT_TODO': {
-			const {ids, state} = action.payload;
+			const {ids, state: status} = action.payload;
 			return {
 				...state,
 				todos: [
 					...ids.map(todoId => todos.find(todo => todo.id === todoId)),
-					...todos.filter(todo => todo.state !== state)
+					...todos.filter(todo => todo.state !== status)
 				]
 			};
 		}
